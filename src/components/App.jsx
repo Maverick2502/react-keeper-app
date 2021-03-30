@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import TodoItem from "../components/toDoItem";
 
 function App() {
   const [inputText, setInputText] = useState("");
@@ -16,23 +17,34 @@ function App() {
     setInputText("");
   }
 
+  function deleteItem(id) {
+    setItems((prevItems) => {
+      return prevItems.filter((item, index) => {
+        return index !== id;
+      });
+    });
+  }
+
   return (
     <div className="container">
       <div className="heading">
         <h1>To-Do List</h1>
       </div>
-      <div className="form"> 
+      <div className="form">
         <input onChange={handleChange} type="text" value={inputText} />
         <button onClick={addItem}>
           <span>Add</span>
         </button>
       </div>
       <div>
-        <ul>
-          {items.map((todoItem) => (
-            <li>{todoItem}</li>
-          ))}
-        </ul>
+        {items.map((toDoItem, index) => (
+          <TodoItem
+            key={index}
+            id={index}
+            text={toDoItem}
+            onChecked={deleteItem}
+          />
+        ))}
       </div>
     </div>
   );
